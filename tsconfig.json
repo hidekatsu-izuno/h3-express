@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "target": "ES2020",
+    "importHelpers": true,
+    "sourceMap": true,
+    "outDir": "./lib",
+
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "./types"
+  },
+  "extends": "@tsconfig/recommended/tsconfig.json",
+  "include": ["./src"]
+}
