@@ -11,18 +11,10 @@ const app = {
 }
 
 export function defineExpressHandler(handler: Handler) {
-  if (handler.length === 2) {
-    return (req: IncomingMessage, res: ServerResponse) => {
-      const ereq = toExpressRequest(req)
-      const eres = toExpressResponse(res)
-      return handler(ereq, eres)
-    }
-  } else {
-    return (req: IncomingMessage, res: ServerResponse, next: (err?: Error) => any) => {
-      const ereq = toExpressRequest(req)
-      const eres = toExpressResponse(res)
-      return handler(ereq, eres, next as any)
-    }
+  return (req: IncomingMessage, res: ServerResponse, next: (err?: Error) => any) => {
+    const ereq = toExpressRequest(req)
+    const eres = toExpressResponse(res)
+    return handler(ereq, eres, next as any)
   }
 }
 
