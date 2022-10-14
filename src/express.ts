@@ -26,9 +26,9 @@ function toExpressResponse(res: any): Response {
 
   // Nuxt 3 bug: https://github.com/nuxt/framework/issues/3623
   const _setHeader = res.setHeader;
-  res.setHeader = function setHeader(name: string, value: string | number | readonly string[]): ServerResponse {
+  res.setHeader = function setHeader(...args: any[]) {
       if (!res.headersSent) {
-          _setHeader.call(res, name, value)
+          _setHeader.apply(res, args)
       }
       return res
   }
