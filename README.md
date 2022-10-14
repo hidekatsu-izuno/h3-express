@@ -33,7 +33,7 @@ import express from 'express'
 import session from 'express-session'
 import fileupload from 'express-fileupload'
 
-export default defineExpressHandler(new express.Router()
+export default defineExpressHandler(express.Router()
   .use(session({
     ...
   }))

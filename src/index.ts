@@ -3,6 +3,13 @@ import express, { Request, Response } from 'express'
 
 declare type Handler = (req: Request, res: Response, next?: (err?: Error) => any) => any
 
+const ExpressSymbol = Symbol.for('ExpressSymbol')
+const app = {
+  get() {
+    // no handle
+  }
+}
+
 export function defineExpressHandler(handler: Handler) {
   if (handler.length === 2) {
     return (req: IncomingMessage, res: ServerResponse) => {
@@ -20,14 +27,25 @@ export function defineExpressHandler(handler: Handler) {
 }
 
 function toExpressRequest(req: any): Request {
+  if (req[ExpressSymbol]) {
+    return req
+  }
+
   const descs = Object.getOwnPropertyDescriptors(express.request)
   for (const key in descs) {
       Object.defineProperty(req, key, descs[key])
   }
+
+  req.app = app
+  req[ExpressSymbol] = true
   return req as any
 }
 
 function toExpressResponse(res: any): Response {
+  if (res[ExpressSymbol]) {
+    return res
+  }
+
   const descs = Object.getOwnPropertyDescriptors(express.response)
   for (const key in descs) {
       Object.defineProperty(res, key, descs[key])
@@ -45,6 +63,9 @@ function toExpressResponse(res: any): Response {
   res._implicitHeader = function () {
       res.writeHead(res.statusCode)
   }
+
+  res.app = app
+  res[ExpressSymbol] = true
   return res as any
 }
 

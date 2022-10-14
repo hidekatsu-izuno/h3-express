@@ -23,14 +23,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hidekatsu-izuno/h3-express-polyfill.git"
+    "url": "git+https://github.com/hidekatsu-izuno/h3-express.git"
   },
   "author": "Hidekatsu Izuno <hidekatsu.izuno@gmail.com> (https://github.com/hidekatsu-izuno/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hidekatsu-izuno/h3-express-polyfill/issues"
+    "url": "https://github.com/hidekatsu-izuno/h3-express/issues"
   },
-  "homepage": "https://github.com/hidekatsu-izuno/h3-express-polyfill#readme",
+  "homepage": "https://github.com/hidekatsu-izuno/h3-express#readme",
   "keywords": [
     "h3",
     "express",
