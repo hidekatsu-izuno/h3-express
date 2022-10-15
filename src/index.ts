@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express'
-import { getQuery, isMethod, readBody, defineEventHandler, createError } from 'h3'
+import { getQuery, isMethod, readBody, defineEventHandler, createError, readRawBody } from 'h3'
 
 declare type Handler = (req: Request, res: Response, next?: (err?: Error) => any) => any
 
@@ -64,7 +64,11 @@ async function toExpressRequest(req: any): Promise<Request> {
     configurable: true,
   })
   if (isMethod(req.event, ['PATCH', 'POST', 'PUT', 'DELETE'])) {
-    req.body = await readBody(req.event)
+    if (req.headers["content-type"] === "application/octed-stream") {
+      req.body = await readRawBody(req.event, false)
+    } else {
+      req.body = await readBody(req.event)
+    }
   }
   req[ExpressSymbol] = true
   return req as any
