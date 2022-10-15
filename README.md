@@ -2,7 +2,7 @@
 
 Express polyfill for h3.
 
-By default, Body-parsing is enabled. Therefore, req.body can be used without any settings.
+By default, Body-parsing is enabled. Therefore, req.body can be used without express.urlencoded and express.json.
 
 ## define a handler
 
