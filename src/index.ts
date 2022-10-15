@@ -1,6 +1,5 @@
-import { IncomingMessage, ServerResponse } from 'node:http'
 import express, { Request, Response } from 'express'
-import { getQuery, isMethod } from 'h3'
+import { getQuery, isMethod, readBody, defineEventHandler, createError } from 'h3'
 
 declare type Handler = (req: Request, res: Response, next?: (err?: Error) => any) => any
 
@@ -12,22 +11,37 @@ const app = {
 }
 
 export function defineExpressHandler(handler: Handler) {
-  if (handler.length === 2) {
-    return (req: IncomingMessage, res: ServerResponse) => {
-      const ereq = toExpressRequest(req)
-      const eres = toExpressResponse(res)
-      return handler(ereq, eres)
-    }
-  }
+  const isMiddleware = handler.length > 2
 
-  return (req: IncomingMessage, res: ServerResponse, next: (err?: Error) => any) => {
-    const ereq = toExpressRequest(req)
-    const eres = toExpressResponse(res)
-    return handler(ereq, eres, next as any)
-  }
+  return defineEventHandler(async (event) => {
+    const ereq = await toExpressRequest(event.req)
+    const eres = await toExpressResponse(event.res)
+
+    return await new Promise((resolve, reject) => {
+      const next = (err?: Error) => {
+        if (isMiddleware) {
+          eres.off('close', next)
+          eres.off('error', next)
+        }
+        return err ? reject(createError(err)) : resolve(undefined)
+      }
+
+      try {
+        const returned = handler(ereq, eres, next)
+        if (isMiddleware && returned === undefined) {
+          eres.once('close', next)
+          eres.once('error', next)
+        } else {
+          resolve(returned)
+        }
+      } catch (err) {
+        next(err as Error)
+      }
+    })
+  })
 }
 
-function toExpressRequest(req: any): Request {
+async function toExpressRequest(req: any): Promise<Request> {
   if (req[ExpressSymbol]) {
     return req
   }
@@ -50,13 +64,13 @@ function toExpressRequest(req: any): Request {
     configurable: true,
   })
   if (isMethod(req.event, ['PATCH', 'POST', 'PUT', 'DELETE'])) {
-    //req.body = await readBody(req.event)
+    req.body = await readBody(req.event)
   }
   req[ExpressSymbol] = true
   return req as any
 }
 
-function toExpressResponse(res: any): Response {
+async function toExpressResponse(res: any): Promise<Response> {
   if (res[ExpressSymbol]) {
     return res
   }
@@ -83,4 +97,3 @@ function toExpressResponse(res: any): Response {
   res[ExpressSymbol] = true
   return res as any
 }
-

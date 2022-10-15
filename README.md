@@ -1,6 +1,8 @@
 # h3-express
 
-Express polyfill for h3
+Express polyfill for h3.
+
+By default, Body-parsing is enabled. Therefore, req.body can be used without any settings.
 
 ## define a handler
 
