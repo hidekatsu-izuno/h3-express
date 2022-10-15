@@ -2,8 +2,13 @@
 
 Express polyfill for h3.
 
-By default, Body-parsing is enabled. Therefore, req.body can be used without express.urlencoded, 
-express.json, express.raw, express.text and express.cookies.
+By default, Body-parsing is enabled. Therefore, query, body, params and cookie fields can be used without the following middlewares.
+
+- express.urlencoded, 
+- express.json
+- express.raw
+- express.text
+- express.cookies.
 
 ## define a handler
 
