@@ -11,29 +11,22 @@ const app = {
 }
 
 export function defineExpressHandler(handler: Handler) {
-  const isMiddleware = handler.length > 2
-
   return defineEventHandler(async (event) => {
-    const ereq = await toExpressRequest(event.req)
-    const eres = await toExpressResponse(event.res)
+    const ereq = await toExpressRequest(event.req) as any
+    const eres = await toExpressResponse(event.res) as any
 
     return await new Promise((resolve, reject) => {
       const next = (err?: Error) => {
-        if (isMiddleware) {
-          eres.off('close', next)
-          eres.off('error', next)
-        }
+        eres.off('close', next)
+        eres.off('error', next)
         return err ? reject(createError(err)) : resolve(undefined)
       }
 
       try {
-        const returned = handler(ereq, eres, next)
-        if (isMiddleware && returned === undefined) {
-          eres.once('close', next)
-          eres.once('error', next)
-        } else {
-          resolve(returned)
-        }
+        ereq.next = next
+        handler(ereq, eres, next)
+        eres.once('close', next)
+        eres.once('error', next)
       } catch (err) {
         next(err as Error)
       }
@@ -54,10 +47,10 @@ async function toExpressRequest(req: any): Promise<Request> {
   req.app = app
   req.query = getQuery(req.event)
   Object.defineProperty(req, 'params', {
-    get: function() {
+    get: function () {
       return this.event.context.params
     },
-    set: function(newValue) {
+    set: function (newValue) {
       this.event.context.params = newValue
     },
     enumerable: true,
@@ -86,20 +79,20 @@ async function toExpressResponse(res: any): Promise<Response> {
 
   const descs = Object.getOwnPropertyDescriptors(express.response)
   for (const key in descs) {
-      Object.defineProperty(res, key, descs[key])
+    Object.defineProperty(res, key, descs[key])
   }
 
   // Nuxt 3 bug: https://github.com/nuxt/framework/issues/3623
   const _setHeader = res.setHeader;
   res.setHeader = function setHeader(...args: any[]) {
-      if (!res.headersSent) {
-          _setHeader.apply(res, args)
-      }
-      return res
+    if (!res.headersSent) {
+      _setHeader.apply(res, args)
+    }
+    return res
   }
 
   res._implicitHeader = function () {
-      res.writeHead(res.statusCode)
+    res.writeHead(res.statusCode)
   }
 
   res.app = app
