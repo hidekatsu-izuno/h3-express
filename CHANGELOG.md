@@ -4,7 +4,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [0.2.2](https://github.com/hidekatsu-izuno/h3-express/compare/v0.2.1...v0.2.2) (2022-10-17)
 
-
 ### Bug Fixes
 
 * a explanation about the parameter fields ([f38e9e7](https://github.com/hidekatsu-izuno/h3-express/commit/f38e9e735abd240a8e8e70721623d3bf4aa30548))
