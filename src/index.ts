@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express'
-import { getQuery, isMethod, readBody, defineEventHandler, createError, readRawBody, parseCookies } from 'h3'
+import { getQuery, isMethod, readBody, defineEventHandler, createError, readRawBody, parseCookies, H3Event } from 'h3'
 
 declare type Handler = (req: Request, res: Response, next?: (err?: Error) => any) => any
 
@@ -12,8 +12,8 @@ const app = {
 
 export function defineExpressHandler(handler: Handler) {
   return defineEventHandler(async (event) => {
-    const ereq = await toExpressRequest(event.req) as any
-    const eres = await toExpressResponse(event.res) as any
+    const ereq = await toExpressRequest(event) as any
+    const eres = await toExpressResponse(event) as any
 
     return await new Promise((resolve, reject) => {
       const next = (err?: Error) => {
@@ -34,7 +34,8 @@ export function defineExpressHandler(handler: Handler) {
   })
 }
 
-async function toExpressRequest(req: any): Promise<Request> {
+async function toExpressRequest(event: H3Event): Promise<Request> {
+  const req: any = event.req
   if (req[ExpressSymbol]) {
     return req
   }
@@ -45,7 +46,7 @@ async function toExpressRequest(req: any): Promise<Request> {
   }
 
   req.app = app
-  req.query = getQuery(req.event)
+  req.query = getQuery(event)
   Object.defineProperty(req, 'params', {
     get: function () {
       return this.event.context.params
@@ -56,23 +57,24 @@ async function toExpressRequest(req: any): Promise<Request> {
     enumerable: true,
     configurable: true,
   })
-  if (isMethod(req.event, ['PATCH', 'POST', 'PUT', 'DELETE'])) {
+  if (isMethod(event, ['PATCH', 'POST', 'PUT', 'DELETE'])) {
     const contentType = req.headers["content-type"]
-    const rawBody = await readRawBody(req.event, false)
+    const rawBody = await readRawBody(event, false)
     if (contentType === "application/octed-stream") {
       req.body = rawBody
     } else if (rawBody.length > 0 || contentType === "text/plain") {
-      req.body = await readBody(req.event)
+      req.body = await readBody(event)
     } else {
       req.body = {}
     }
   }
-  req.cookies = parseCookies(req.event)
+  req.cookies = parseCookies(event)
   req[ExpressSymbol] = true
   return req as any
 }
 
-async function toExpressResponse(res: any): Promise<Response> {
+async function toExpressResponse(event: H3Event): Promise<Response> {
+  const res: any = event.res
   if (res[ExpressSymbol]) {
     return res
   }
