@@ -10,6 +10,11 @@ const app = {
   }
 }
 
+export function getH3Event(target: Request | Response) {
+  const extras = (target as any)[ExpressSymbol] as any
+  return extras.event as H3Event
+}
+
 export function defineExpressHandler(handler: Handler) {
   return defineEventHandler(async (event) => {
     const ereq = await toExpressRequest(event) as any
@@ -49,10 +54,10 @@ async function toExpressRequest(event: H3Event): Promise<Request> {
   req.query = getQuery(event)
   Object.defineProperty(req, 'params', {
     get: function () {
-      return this.event.context.params
+      return event.context.params
     },
     set: function (newValue) {
-      this.event.context.params = newValue
+      event.context.params = newValue
     },
     enumerable: true,
     configurable: true,
@@ -62,14 +67,16 @@ async function toExpressRequest(event: H3Event): Promise<Request> {
     const rawBody = await readRawBody(event, false)
     if (contentType === "application/octed-stream") {
       req.body = rawBody
-    } else if (rawBody.length > 0 || contentType === "text/plain") {
+    } else if (rawBody && rawBody.length > 0 || contentType === "text/plain") {
       req.body = await readBody(event)
     } else {
       req.body = {}
     }
   }
   req.cookies = parseCookies(event)
-  req[ExpressSymbol] = true
+  req[ExpressSymbol] = {
+    event
+  }
   return req as any
 }
 
@@ -98,6 +105,8 @@ async function toExpressResponse(event: H3Event): Promise<Response> {
   }
 
   res.app = app
-  res[ExpressSymbol] = true
+  res[ExpressSymbol] = {
+    event
+  }
   return res as any
 }

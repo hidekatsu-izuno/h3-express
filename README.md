@@ -54,3 +54,14 @@ export default defineExpressHandler(express.Router()
   }))
 )
 ```
+
+## get h3 event
+
+```typescript
+import { defineExpressHandler, getH3Event } from 'h3-express'
+
+export default defineExpressHandler((req, res) => {
+  const event = getH3Event(req)
+  req.end()
+})
+```
