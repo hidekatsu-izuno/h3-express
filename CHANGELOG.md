@@ -4,10 +4,10 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [0.2.3](https://github.com/hidekatsu-izuno/h3-express/compare/v0.2.2...v0.2.3) (2022-10-18)
 
-
 ### Features
 
 * Support Nuxt3-rc12 ([6344da6](https://github.com/hidekatsu-izuno/h3-express/commit/6344da6e3d720599a2c58a22b8ec5cb31d4e922a))
+* Add a getEvent function
 
 ### [0.2.2](https://github.com/hidekatsu-izuno/h3-express/compare/v0.2.1...v0.2.2) (2022-10-17)
 
