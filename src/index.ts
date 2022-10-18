@@ -28,6 +28,8 @@ export function defineExpressHandler(handler: Handler) {
       }
 
       try {
+        ereq.res = eres
+        eres.req = ereq
         ereq.next = next
         handler(ereq, eres, next)
         eres.once('close', next)
