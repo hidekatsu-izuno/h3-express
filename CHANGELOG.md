@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.4](https://github.com/hidekatsu-izuno/h3-express/compare/v0.2.3...v0.2.4) (2022-10-19)
+
+
+### Bug Fixes
+
+* add cross-reference between req and res ([57a93f4](https://github.com/hidekatsu-izuno/h3-express/commit/57a93f468b733ebc91d42dc05a881d31d3897d60))
+
 ### [0.2.3](https://github.com/hidekatsu-izuno/h3-express/compare/v0.2.2...v0.2.3) (2022-10-18)
 
 ### Features
