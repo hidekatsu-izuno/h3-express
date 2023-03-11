@@ -1,4 +1,4 @@
-import express, { RequestHandler } from 'express'
+import express, { Request, Response, RequestHandler } from 'express'
 import { getQuery, isMethod, readBody, defineEventHandler, createError, readRawBody, parseCookies, H3Event } from 'h3'
 
 const ExpressSymbol = Symbol.for('ExpressSymbol')
