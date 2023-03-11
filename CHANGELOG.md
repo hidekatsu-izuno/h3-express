@@ -7,7 +7,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
-* Improve type check ([ce371c8](https://github.com/hidekatsu-izuno/h3-express/commit/ce371c8c7955915a812944b77aa4826622d7c0cc))
+* Add a ES module support ([b2bd1a6](https://github.com/hidekatsu-izuno/h3-express/commit/b2bd1a68c65875e7917e38c33776c4a1bfa53753))
+* Improve handler type definition ([ce371c8](https://github.com/hidekatsu-izuno/h3-express/commit/ce371c8c7955915a812944b77aa4826622d7c0cc))
 
 ### [0.2.4](https://github.com/hidekatsu-izuno/h3-express/compare/v0.2.3...v0.2.4) (2022-10-19)
 
