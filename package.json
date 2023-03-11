@@ -1,6 +1,6 @@
 {
   "name": "h3-express",
-  "version": "0.3.0-alpha.0",
+  "version": "0.3.0-alpha.1",
   "description": "Express polyfill for h3",
   "type": "module",
   "main": "./lib/index.js",
