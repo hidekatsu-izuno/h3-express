@@ -1,8 +1,5 @@
-import express, { NextFunction, Request, Response } from 'express'
+import express, { RequestHandler } from 'express'
 import { getQuery, isMethod, readBody, defineEventHandler, createError, readRawBody, parseCookies, H3Event } from 'h3'
-
-declare type Handler = ((req: Request, res: Response) => any) |
-  ((req: Request, res: Response, next: NextFunction) => any)
 
 const ExpressSymbol = Symbol.for('ExpressSymbol')
 const app = {
@@ -16,7 +13,7 @@ export function getH3Event(target: Request | Response) {
   return extras.event as H3Event
 }
 
-export function defineExpressHandler(handler: Handler) {
+export function defineExpressHandler(handler: RequestHandler) {
   return defineEventHandler(async (event) => {
     const ereq = await toExpressRequest(event) as any
     const eres = await toExpressResponse(event) as any
