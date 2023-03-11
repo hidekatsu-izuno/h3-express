@@ -2,26 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [0.3.0-alpha.4](https://github.com/hidekatsu-izuno/h3-express/compare/v0.3.0-alpha.3...v0.3.0-alpha.4) (2023-03-11)
-
-## [0.3.0-alpha.3](https://github.com/hidekatsu-izuno/h3-express/compare/v0.3.0-alpha.2...v0.3.0-alpha.3) (2023-03-11)
+## [0.3.0](https://github.com/hidekatsu-izuno/h3-express/compare/v0.3.0-alpha.4...v0.3.0) (2023-03-11)
 
 
 ### Bug Fixes
 
-* Improve type check ([db137ab](https://github.com/hidekatsu-izuno/h3-express/commit/db137ab40c07cb8c74f6c21f956fcbc5d45380f0))
-
-## [0.3.0-alpha.2](https://github.com/hidekatsu-izuno/h3-express/compare/v0.3.0-alpha.1...v0.3.0-alpha.2) (2023-03-11)
-
-
-### Bug Fixes
-
-* Add a ES module support ([b2bd1a6](https://github.com/hidekatsu-izuno/h3-express/commit/b2bd1a68c65875e7917e38c33776c4a1bfa53753))
-* Improve handler type definition ([ed07151](https://github.com/hidekatsu-izuno/h3-express/commit/ed0715165c90ba5eab434b7078564f74896d1c45))
-
-## [0.3.0-alpha.1](https://github.com/hidekatsu-izuno/h3-express/compare/v0.3.0-alpha.0...v0.3.0-alpha.1) (2023-03-11)
-
-## [0.3.0-alpha.0](https://github.com/hidekatsu-izuno/h3-express/compare/v0.2.4...v0.3.0-alpha.0) (2023-02-25)
+* Improve type check ([ce371c8](https://github.com/hidekatsu-izuno/h3-express/commit/ce371c8c7955915a812944b77aa4826622d7c0cc))
 
 ### [0.2.4](https://github.com/hidekatsu-izuno/h3-express/compare/v0.2.3...v0.2.4) (2022-10-19)
 
