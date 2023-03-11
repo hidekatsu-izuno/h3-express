@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0-alpha.3](https://github.com/hidekatsu-izuno/h3-express/compare/v0.3.0-alpha.2...v0.3.0-alpha.3) (2023-03-11)
+
+
+### Bug Fixes
+
+* Improve type check ([db137ab](https://github.com/hidekatsu-izuno/h3-express/commit/db137ab40c07cb8c74f6c21f956fcbc5d45380f0))
+
 ## [0.3.0-alpha.2](https://github.com/hidekatsu-izuno/h3-express/compare/v0.3.0-alpha.1...v0.3.0-alpha.2) (2023-03-11)
 
 
