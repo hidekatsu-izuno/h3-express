@@ -1,7 +1,8 @@
-import express, { Request, Response } from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import { getQuery, isMethod, readBody, defineEventHandler, createError, readRawBody, parseCookies, H3Event } from 'h3'
 
-declare type Handler = (req: Request, res: Response, next?: (err?: Error | string) => any) => any
+declare type Handler = ((req: Request, res: Response) => any) |
+  ((req: Request, res: Response, next: NextFunction) => any)
 
 const ExpressSymbol = Symbol.for('ExpressSymbol')
 const app = {
