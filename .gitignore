@@ -82,6 +82,7 @@ typings/
 .nuxt
 lib/
 types/
+module/
 
 # Gatsby files
 .cache/

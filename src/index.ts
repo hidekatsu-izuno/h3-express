@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express'
 import { getQuery, isMethod, readBody, defineEventHandler, createError, readRawBody, parseCookies, H3Event } from 'h3'
 
-declare type Handler = (req: Request, res: Response, next?: (err?: Error) => any) => any
+declare type Handler = (req: Request, res: Response, next?: (err?: Error | string) => any) => any
 
 const ExpressSymbol = Symbol.for('ExpressSymbol')
 const app = {
@@ -21,10 +21,14 @@ export function defineExpressHandler(handler: Handler) {
     const eres = await toExpressResponse(event) as any
 
     return await new Promise((resolve, reject) => {
-      const next = (err?: Error) => {
+      const next = (err?: Error | string) => {
         eres.off('close', next)
         eres.off('error', next)
-        return err ? reject(createError(err)) : resolve(undefined)
+        if (err) {
+          return reject(createError(err))
+        } else {
+          return resolve(err)
+        }
       }
 
       try {
@@ -42,7 +46,7 @@ export function defineExpressHandler(handler: Handler) {
 }
 
 async function toExpressRequest(event: H3Event): Promise<Request> {
-  const req: any = event.req
+  const req: any = event.node.req
   if (req[ExpressSymbol]) {
     return req
   }
@@ -83,7 +87,7 @@ async function toExpressRequest(event: H3Event): Promise<Request> {
 }
 
 async function toExpressResponse(event: H3Event): Promise<Response> {
-  const res: any = event.res
+  const res: any = event.node.res
   if (res[ExpressSymbol]) {
     return res
   }
