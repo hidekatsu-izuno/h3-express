@@ -33,9 +33,9 @@ export function defineExpressHandler(handler: RequestHandler) {
         ereq.res = eres
         eres.req = ereq
         ereq.next = next
-        handler(ereq, eres, next)
         eres.once('close', next)
         eres.once('error', next)
+        handler(ereq, eres, next)
       } catch (err) {
         next(err as Error)
       }
