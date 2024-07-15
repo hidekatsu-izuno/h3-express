@@ -31,28 +31,28 @@ export function defineExpressHandler(handler: RequestHandler) {
 		const ereq = (await toExpressRequest(event)) as any;
 		const eres = (await toExpressResponse(event)) as any;
 
-		return await new Promise((resolve, reject) => {
-			const next = (err?: Error | string) => {
-				eres.off("close", next);
-				eres.off("error", next);
-				if (err) {
-					return reject(createError(err));
-				}
-        return resolve(err);
-			};
+    return await new Promise((resolve, reject) => {
+      const next = (err?: Error | string) => {
+        eres.off('close', next)
+        eres.off('error', next)
+        if (err) {
+          return reject(createError(err))
+        }
+        return resolve(err)
+      }
 
-			try {
-				ereq.res = eres;
-				eres.req = ereq;
-				ereq.next = next;
-				handler(ereq, eres, next);
-				eres.once("close", next);
-				eres.once("error", next);
-			} catch (err) {
-				next(err as Error);
-			}
-		});
-	});
+      try {
+        ereq.res = eres
+        eres.req = ereq
+        ereq.next = next
+        eres.once('close', next)
+        eres.once('error', next)
+        handler(ereq, eres, next)
+      } catch (err) {
+        next(err as Error)
+      }
+    })
+  })
 }
 
 async function toExpressRequest(event: H3Event): Promise<Request> {
