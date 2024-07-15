@@ -12,6 +12,11 @@
 			}
 		}
 	},
+	"javascript": {
+		"formatter": {
+			"semicolons": "asNeeded"
+		}
+	},
 	"files": {
 		"include": ["src/**/*.ts"]
 	}
