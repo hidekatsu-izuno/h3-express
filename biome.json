@@ -7,12 +7,12 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true,
-      "suspicious": {
-        "noExplicitAny": "off"
-      }
+			"suspicious": {
+				"noExplicitAny": "off"
+			}
 		}
 	},
-  "files": {
-    "include": ["src/**/*.ts"]
-  }
+	"files": {
+		"include": ["src/**/*.ts"]
+	}
 }

@@ -9,7 +9,7 @@
 	"scripts": {
 		"build": "tsc --build --clean && tsc -p ./tsconfig.json && tsc -p ./tsconfig.cjs.json",
 		"test": "vitest --config vite.config.ts",
-		"lint": "biome lint --write",
+		"check": "biome check --write",
 		"version.major": "npm run build && standard-version --release-as major",
 		"version.major.alpha": "npm run build && standard-version --release-as major --prerelease alpha",
 		"version.minor": "npm run build && standard-version --release-as minor",
